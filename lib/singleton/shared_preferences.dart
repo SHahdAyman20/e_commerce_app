@@ -13,10 +13,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 //instead of String key
 
 enum PrefKeys{
-  newsCountry,
   language,
   apiToken,
-  theme,
+  name,
+  email,
+  phoneNumber,
+  password
 }
 
 

@@ -1,6 +1,7 @@
 import 'package:e_commerce_app/cores/app_dio.dart';
 import 'package:e_commerce_app/cores/app_endpoints.dart';
 import 'package:e_commerce_app/screens/e_login_screen.dart';
+import 'package:e_commerce_app/singleton/shared_preferences.dart';
 import 'package:e_commerce_app/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -180,6 +181,11 @@ class ERegisterScreenState extends State<ERegisterScreen>{
       }
     ).then((value) {
       print('value ===> $value');
+      // Save user data to shared preferences
+      PreferenceUtils.setString(PrefKeys.name, nameController.text);
+      PreferenceUtils.setString(PrefKeys.email, emailController.text);
+      PreferenceUtils.setString(PrefKeys.phoneNumber, phoneController.text);
+      PreferenceUtils.setString(PrefKeys.password, passController.text);
       // Handle successful registration
     }).catchError((error) {
       // Handle registration error
