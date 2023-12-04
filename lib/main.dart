@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/screens/e_main_screen.dart';
 import 'package:e_commerce_app/screens/e_login_screen.dart';
 import 'package:e_commerce_app/cores/app_dio.dart';
 import 'package:e_commerce_app/singleton/shared_preferences.dart';
@@ -19,9 +20,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveSizer(
       builder: (context, orientation, screenType){
-      return const  MaterialApp(
+      return   MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.deepPurple,
+        ),
         debugShowCheckedModeBanner: false,
-        home: ELoginScreen(),
+        home:const EMainScreen(),
       );
       }
     );
