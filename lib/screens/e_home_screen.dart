@@ -35,6 +35,12 @@ class EHomeScreenState extends State<EHomeScreen>{
       discount: 35,
       isFav: false,
       category: 'Phones',
+      size: '37',
+      brand: 'Redmi',
+      color: 'black',
+      model: 'Note 4',
+      type: 'flat'
+
     ),
     ProductCardModel(
       productImage: 'assets/headphone.png',

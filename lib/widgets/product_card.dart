@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/models/product_card_model.dart';
+import 'package:e_commerce_app/screens/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -38,24 +39,36 @@ class ProductCardState extends State<ProductCard> {
           widget.products.length,
           (index) {
 
-            return Container(
-              padding: EdgeInsets.all(10.sp),
-              margin: EdgeInsets.all(15.sp),
-              decoration: BoxDecoration(
-                color: const Color(0xfff3eeee),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                children: [
-                  // discount%% and fav icon
-                  discountAndFavIcon(index),
-                  // product image
-                  productImage(index),
-                  // product details
-                  productDetails(index),
-                 //s const SizedBox(height: 10,),
-                  priceBeforeAndAfterSales(index)
-                ],
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProductDetailsScreen(
+                      product: widget.products[index],
+                    ),
+                  ),
+                );
+              },
+              child: Container(
+                padding: EdgeInsets.all(10.sp),
+                margin: EdgeInsets.all(15.sp),
+                decoration: BoxDecoration(
+                  color: const Color(0xfff3eeee),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  children: [
+                    // discount%% and fav icon
+                    discountAndFavIcon(index),
+                    // product image
+                    productImage(index),
+                    // product details
+                    productDetails(index),
+                   //s const SizedBox(height: 10,),
+                    priceBeforeAndAfterSales(index)
+                  ],
+                ),
               ),
             );
           },
@@ -108,17 +121,17 @@ class ProductCardState extends State<ProductCard> {
   }
 
   Widget productDetails(index){
-    return IntrinsicHeight(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          widget.products[index].productDescription,
-          textAlign: TextAlign.center,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontSize: 18.sp),
+      return IntrinsicHeight(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            widget.products[index].productDescription,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 18.sp),
+          ),
         ),
-      ),
     );
   }
 

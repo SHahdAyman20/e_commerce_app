@@ -7,6 +7,12 @@ class ProductCardModel{
   double discount;
   bool isFav= false;
   String category;
+  String? brand='';
+  String? color='';
+  String? model='';
+  String? type='';
+  String? size='';
+
 
 
   ProductCardModel({
@@ -16,7 +22,8 @@ class ProductCardModel{
       required this.productPriceBeforeSale,
       required this.discount,
       required this.isFav,
-    required this.category
+    required this.category,
+    this.size,this.brand,this.color,this.model,this.type
 
   });
 }
