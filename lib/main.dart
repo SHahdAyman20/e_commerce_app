@@ -1,5 +1,4 @@
 import 'package:e_commerce_app/screens/e_main_screen.dart';
-import 'package:e_commerce_app/screens/e_login_screen.dart';
 import 'package:e_commerce_app/cores/app_dio.dart';
 import 'package:e_commerce_app/singleton/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.deepPurple,
         ),
         debugShowCheckedModeBanner: false,
-        home:const EMainScreen(),
+         home: const EMainScreen(),
       );
       }
     );

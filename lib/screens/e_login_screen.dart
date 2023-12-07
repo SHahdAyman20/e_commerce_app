@@ -42,8 +42,9 @@ class ELoginScreenState extends State<ELoginScreen> {
   // }
 
     final emailController = TextEditingController();
-  final passController = TextEditingController();
-  bool obscureText = false;
+    final passController = TextEditingController();
+
+    bool obscureText = false;
 
 
   @override
@@ -95,7 +96,6 @@ class ELoginScreenState extends State<ELoginScreen> {
               ),
             ),
             // login button
-            // sign in button
             SizedBox(height: 1.h,),
             ElevatedButton(
                 onPressed: () {

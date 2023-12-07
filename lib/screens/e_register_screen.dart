@@ -174,7 +174,7 @@ class ERegisterScreenState extends State<ERegisterScreen>{
     AppDio.post(
         endpoint: Endpoints.register,
       body: {
-          'name': nameController.text,
+        'name': nameController.text,
         'email': emailController.text,
         'password': passController.text,
         'phone': phoneController.text,

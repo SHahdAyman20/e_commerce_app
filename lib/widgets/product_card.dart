@@ -1,125 +1,147 @@
 import 'package:e_commerce_app/models/product_card_model.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ProductCard extends StatefulWidget {
+
+  final List<ProductCardModel> products;
+
+  const ProductCard({Key? key, required this.products}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return ProductCardState();
   }
 }
 
 class ProductCardState extends State<ProductCard> {
-  List<ProductCardModel> product = [
-    ProductCardModel(
-      productImage: 'assets/Mi-Smart.png',
-      productDescription: 'ProductCardModel',
-      productPriceAfterSale: 1300,
-      productPriceBeforeSale: 2000,
-      discount: 35,
-    ),
-    ProductCardModel(
-      productImage: 'assets/headphone.png',
-      productDescription: 'SONY premium wireless headphone',
-      productPriceAfterSale: 700,
-      productPriceBeforeSale: 1000,
-      discount: 30,
-    ),
-    ProductCardModel(
-      productImage: 'assets/shirt.png',
-      productDescription: 'Lycra Men’s shirt',
-      productPriceAfterSale: 250,
-      productPriceBeforeSale: 500,
-      discount: 50,
-    ),
-    ProductCardModel(
-      productImage: 'assets/shoes.png',
-      productDescription: 'Nike/L v Air-force 1',
-      productPriceAfterSale: 1000,
-      productPriceBeforeSale: 1200,
-      discount: 17,
-    ),
-  ];
-bool isFav= false;
+
+
+  List<ProductCardModel> filteredProducts = [];
+
+
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return SingleChildScrollView(
-
       child: GridView.count(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          crossAxisCount: 2,
-          scrollDirection: Axis.vertical,
-          childAspectRatio: 0.75, // Adjust this value to change the card size
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        crossAxisCount: 2,
+        scrollDirection: Axis.vertical,
+        childAspectRatio: 0.65,
+        mainAxisSpacing: 2,
+        // Adjust this value to change the card size
+        children: List.generate(
+          widget.products.length,
+          (index) {
 
-          children: List.generate(
-              product.length, (index) {
             return Container(
-              // width: screenWidth *0.3,
-              // height: 600,
-              padding: const EdgeInsets.all(5),
-              margin: const EdgeInsets.all(10),
+              padding: EdgeInsets.all(10.sp),
+              margin: EdgeInsets.all(15.sp),
               decoration: BoxDecoration(
-                color: const Color(0xffF2F2F2),
+                color: const Color(0xfff3eeee),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color:  Colors.white,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Text(
-                            ' ${product[index].discount} % '
-                        ),
-                      ),
-                      IconButton(
-                          onPressed: (){},
-                          icon:const Icon(Icons.favorite_border,),
-                      )
-                    ],
-                  ),
-                  Image.asset(product[index].productImage,height: 100,),
-                  const SizedBox(height: 10,),
-                  Text(
-                    product[index].productDescription,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 10,),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                          '${product[index].productPriceAfterSale} EG',
-                        style:const TextStyle(
-                          fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      Text(
-                        '${product[index].productPriceBeforeSale} EG',
-                        style: TextStyle(
-                            color: Colors.grey[700],
-                            decoration: TextDecoration.lineThrough
-                        ),
-                      ),
-                    ],
-                  )
+                  // discount%% and fav icon
+                  discountAndFavIcon(index),
+                  // product image
+                  productImage(index),
+                  // product details
+                  productDetails(index),
+                 //s const SizedBox(height: 10,),
+                  priceBeforeAndAfterSales(index)
                 ],
               ),
             );
-          }
-      )
+          },
+        ),
+      ),
+    );
+  }
+
+
+  Widget discountAndFavIcon(index){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          padding: EdgeInsets.all(5.sp),
+          margin: EdgeInsets.all(10.sp),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(30),
           ),
+          child: Text(' ${widget.products[index].discount}% OFF '),
+        ),
+        IconButton(
+          onPressed: () {
+            setState(() {
+              widget.products[index].isFav =
+              !widget.products[index].isFav;
+            });
+          },
+          icon: Icon(
+            Icons.favorite,
+            color: (widget.products[index].isFav)
+                ? Colors.deepPurple
+                : const Color(0xff9A9A9A),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget productImage(index){
+    return Expanded(
+      child: Image.asset(
+        widget.products[index].productImage,
+        height: double.infinity,
+        width: double.infinity,
+        fit: BoxFit.contain,
+      ),
+    );
+  }
+
+  Widget productDetails(index){
+    return IntrinsicHeight(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          widget.products[index].productDescription,
+          textAlign: TextAlign.center,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(fontSize: 18.sp),
+        ),
+      ),
+    );
+  }
+
+  Widget priceBeforeAndAfterSales(index){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '${widget.products[index].productPriceAfterSale} EG',
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 0,),
+        Text(
+          '${widget.products[index].productPriceBeforeSale} EG',
+          style: TextStyle(
+              color: Colors.grey[700],
+              decoration: TextDecoration.lineThrough),
+        ),
+        const SizedBox(height: 15,)
+      ],
     );
   }
 }

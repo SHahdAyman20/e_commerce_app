@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/screens/e_home_screen.dart';
+import 'package:e_commerce_app/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 
 class EMainScreen extends StatefulWidget {
@@ -29,6 +30,10 @@ class _EMainScreenState extends State<EMainScreen> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: screenHeight * 0.11,
+        backgroundColor: Colors.deepPurple,
+        titleTextStyle:const TextStyle(
+          color: Colors.white
+        ),
         title:  const Column(
           children: [
             Padding(
@@ -41,7 +46,7 @@ class _EMainScreenState extends State<EMainScreen> {
                   ),
                   Text(
                     ' Shahd',
-                    style: TextStyle(fontWeight: FontWeight.w400),
+                    style: TextStyle(fontWeight: FontWeight.w400,fontSize: 20),
                   ),
                 ],
               ),
@@ -62,52 +67,24 @@ class _EMainScreenState extends State<EMainScreen> {
         actions: [
           IconButton(
             onPressed: (){},
-            icon: const Icon(Icons.notifications_active),
+            icon: const Icon(Icons.notifications_active,color: Colors.white,),
           ),
           IconButton(
             onPressed: (){},
-            icon: const Icon(Icons.shopping_cart),
+            icon: const Icon(Icons.shopping_cart,color: Colors.white,),
           ),
         ],
       ),
       body: screens[currentIndex],
-      bottomNavigationBar: categoriesBottomNavigationBar(),
+      bottomNavigationBar: CategoriesBottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: (selectedIndex) {
+          setState(() {
+            currentIndex = selectedIndex;
+          });
+        },),
     );
   }
 
-  Widget categoriesBottomNavigationBar() {
-    return BottomNavigationBar(
-      backgroundColor: Colors.deepPurple,
-      selectedItemColor: Colors.white,
-      showSelectedLabels: true,
-      showUnselectedLabels: false,
-      type: BottomNavigationBarType.fixed,
-      unselectedItemColor: Colors.grey[400],
-      currentIndex: currentIndex,
-      selectedIconTheme: const IconThemeData(size: 37),
-      onTap: (selectedIndex) {
-        setState(() {
-          currentIndex = selectedIndex;
-        });
-      },
-      iconSize: 24,
-      items: const [
-        //home
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home_rounded),
-          label: 'Home',
-        ),
-        //search
-        BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          label: 'Search',
-        ),
-        //profile
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Profile',
-        ),
-      ],
-    );
-  }
+
 }
