@@ -1,5 +1,5 @@
 import 'package:e_commerce_app/models/product_card_model.dart';
-import 'package:e_commerce_app/screens/product_details.dart';
+import 'package:e_commerce_app/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -17,14 +17,10 @@ class ProductCard extends StatefulWidget {
 class ProductCardState extends State<ProductCard> {
 
 
-  List<ProductCardModel> filteredProducts = [];
-
-
-
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+    // final screenWidth = MediaQuery.of(context).size.width;
+    // final screenHeight = MediaQuery.of(context).size.height;
 
     return SingleChildScrollView(
       child: GridView.count(
@@ -38,17 +34,23 @@ class ProductCardState extends State<ProductCard> {
         children: List.generate(
           widget.products.length,
           (index) {
-
             return GestureDetector(
-              onTap: () {
-                Navigator.push(
+              onTap: () async{
+                final updatedProduct = await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ProductDetailsScreen(
                       product: widget.products[index],
+                      isFav: widget.products[index].isFav,
                     ),
                   ),
                 );
+
+                if (updatedProduct != null) {
+                  setState(() {
+                    widget.products[index] = updatedProduct;
+                  });
+                }
               },
               child: Container(
                 padding: EdgeInsets.all(10.sp),
@@ -94,8 +96,7 @@ class ProductCardState extends State<ProductCard> {
         IconButton(
           onPressed: () {
             setState(() {
-              widget.products[index].isFav =
-              !widget.products[index].isFav;
+              widget.products[index].isFav = !widget.products[index].isFav;
             });
           },
           icon: Icon(

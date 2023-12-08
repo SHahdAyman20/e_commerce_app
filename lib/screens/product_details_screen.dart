@@ -4,8 +4,9 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final ProductCardModel product;
+  final bool isFav;
 
-  const ProductDetailsScreen({Key? key, required this.product})
+  const ProductDetailsScreen({Key? key, required this.product, required this.isFav})
       : super(key: key);
 
   @override
@@ -14,6 +15,12 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   bool isFav = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isFav = widget.isFav;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +56,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               // Product image
               Image.asset(
                 widget.product.productImage,
-                fit: BoxFit.cover,
-                height: MediaQuery.of(context).size.height * 0.4,
+                fit: BoxFit.contain,
+                height: MediaQuery.of(context).size.height * 0.35,
                 width: double.infinity,
               ),
               // product name && fav icon
@@ -58,15 +65,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // product name
-                  Text(
-                    widget.product.productDescription,
-                    textAlign: TextAlign.left,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 23.sp,
-                      color: Colors.deepPurple,
-                      fontWeight: FontWeight.w800,
+                  Expanded(
+                    child: Text(
+                      widget.product.productDescription,
+                      textAlign: TextAlign.left,
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 23.sp,
+                        color: Colors.deepPurple,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                   // Favorite icon
@@ -74,7 +83,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     onPressed: () {
                       setState(() {
                         isFav = !isFav;
+                        widget.product.isFav = isFav;
                       });
+
+                      Navigator.pop(context, widget.product); // Pass the updated product back to the previous screen
                     },
                     icon: Icon(
                       isFav ? Icons.favorite : Icons.favorite_border,

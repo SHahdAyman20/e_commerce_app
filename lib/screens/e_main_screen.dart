@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/screens/e_home_screen.dart';
+import 'package:e_commerce_app/screens/profile_screen.dart';
 import 'package:e_commerce_app/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -12,23 +13,17 @@ class EMainScreen extends StatefulWidget {
 class _EMainScreenState extends State<EMainScreen> {
   int currentIndex = 0;
 
-  final List<String> title = [
-    'Home',
-    'Search',
-    'Profile',
-  ];
-
   final List<Widget> screens =[
   const EHomeScreen(),
   const SizedBox(),
-  const SizedBox()
+   ProfileScreen()
   ];
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
+      appBar: currentIndex==0? AppBar(
         toolbarHeight: screenHeight * 0.11,
         backgroundColor: Colors.deepPurple,
         titleTextStyle:const TextStyle(
@@ -74,7 +69,7 @@ class _EMainScreenState extends State<EMainScreen> {
             icon: const Icon(Icons.shopping_cart,color: Colors.white,),
           ),
         ],
-      ),
+      ): null,
       body: screens[currentIndex],
       bottomNavigationBar: CategoriesBottomNavigationBar(
         currentIndex: currentIndex,
