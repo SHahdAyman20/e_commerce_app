@@ -45,7 +45,7 @@ class ProductCardState extends State<ProductCard> {
                     ),
                   ),
                 );
-
+                // Updating the product if a result is received
                 if (updatedProduct != null) {
                   setState(() {
                     widget.products[index] = updatedProduct;
@@ -97,6 +97,7 @@ class ProductCardState extends State<ProductCard> {
           onPressed: () {
             setState(() {
               widget.products[index].isFav = !widget.products[index].isFav;
+
             });
           },
           icon: Icon(

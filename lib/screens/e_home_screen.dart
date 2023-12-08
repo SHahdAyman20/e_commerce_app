@@ -5,6 +5,7 @@ import 'package:e_commerce_app/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 
 class EHomeScreen extends StatefulWidget{
+
   const EHomeScreen({super.key});
 
   @override

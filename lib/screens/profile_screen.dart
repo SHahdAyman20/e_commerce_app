@@ -1,8 +1,11 @@
+import 'package:e_commerce_app/screens/fav_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+
+
+   const ProfileScreen({super.key,});
 
   @override
   State<StatefulWidget> createState() {
@@ -52,6 +55,9 @@ class ProfileScreenState extends State<ProfileScreen> {
               fontSize: 18.sp,
             ),
           ),
+          SizedBox(
+            height: 20.sp,
+          ),
           profileSections(
             icon: const Icon(Icons.edit_outlined),
             text: 'Edit Profile',
@@ -65,7 +71,14 @@ class ProfileScreenState extends State<ProfileScreen> {
           profileSections(
             icon: const Icon(Icons.favorite_border),
             text: 'Fav Product',
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                MaterialPageRoute (
+                  builder: (BuildContext context) => const FavProductScreen(),
+                ),
+              );
+            },
           ),
           profileSections(
             icon: const Icon(Icons.shopping_cart),
