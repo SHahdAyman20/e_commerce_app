@@ -1,4 +1,4 @@
-import 'package:e_commerce_app/screens/fav_product_screen.dart';
+import 'package:e_commerce_app/screens/fav_screen/fav_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 

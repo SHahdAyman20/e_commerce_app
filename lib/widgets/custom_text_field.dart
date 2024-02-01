@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // i made this class to refactor the code cuz i will make 4 text field
 // and now i won't be forced to write the same code of text field 4 timed
@@ -37,9 +38,11 @@ class CustomTextField extends StatelessWidget {
             hintText: hintText,
             suffixIcon: suffixIcon,
             prefixIcon: prefixIcon,
-            prefixIconColor: Colors.orange,
-            suffixIconColor: Colors.orange,
-            border:const OutlineInputBorder()
+            prefixIconColor:const Color(0xff646d81),
+            suffixIconColor:const Color(0xff646d81),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10)
+            )
         ),
       ),
     );

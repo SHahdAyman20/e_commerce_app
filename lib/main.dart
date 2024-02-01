@@ -1,5 +1,8 @@
-import 'package:e_commerce_app/screens/e_main_screen.dart';
+import 'package:e_commerce_app/screens/home_screen/e_home_screen.dart';
+import 'package:e_commerce_app/screens/login_screen/e_login_screen.dart';
 import 'package:e_commerce_app/cores/app_dio.dart';
+import 'package:e_commerce_app/screens/main_screen/e_main_screen.dart';
+import 'package:e_commerce_app/screens/splash_screen/splash_screen.dart';
 import 'package:e_commerce_app/singleton/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';

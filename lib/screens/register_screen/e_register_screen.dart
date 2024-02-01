@@ -1,30 +1,29 @@
 import 'package:e_commerce_app/cores/app_dio.dart';
 import 'package:e_commerce_app/cores/app_endpoints.dart';
-import 'package:e_commerce_app/screens/e_login_screen.dart';
+import 'package:e_commerce_app/screens/login_screen/e_login_screen.dart';
 import 'package:e_commerce_app/singleton/shared_preferences.dart';
+import 'package:e_commerce_app/widgets/custom_elevated_button.dart';
 import 'package:e_commerce_app/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class ERegisterScreen extends StatefulWidget{
+class ERegisterScreen extends StatefulWidget {
   const ERegisterScreen({super.key});
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
     return ERegisterScreenState();
   }
-  
 }
-class ERegisterScreenState extends State<ERegisterScreen>{
 
+class ERegisterScreenState extends State<ERegisterScreen> {
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  final passController = TextEditingController();
 
-  final  nameController = TextEditingController();
-  final  emailController = TextEditingController();
-  final  phoneController = TextEditingController();
-  final  passController = TextEditingController();
   bool obscureText = false;
-
 
 
   @override
@@ -35,22 +34,41 @@ class ERegisterScreenState extends State<ERegisterScreen>{
         child: Column(
           children: [
             // for logo
-            Container(
-              color: Colors.orange,
+            const SizedBox(
+              height: 20,
+            ),
+            // for logo
+            SizedBox(
               height: 30.h,
               width: double.infinity,
               child: Align(
                 alignment: Alignment.center,
-                child: SvgPicture.asset(
-                  'assets/Amazon_logo.svg',
-                  semanticsLabel: 'Amazon Logo',
-                  width: 10.w,
-                  height: 10.h,
+                child: Image.asset(
+                  'assets/logooo.png',
+                  width: 50.w,
+                  height: 30.h,
                   alignment: Alignment.center,
                 ),
               ),
             ),
-            SizedBox(height: 3.h,),
+            Text(
+              'Let’s Get Started',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 21.sp,
+                color: const Color(0xff3b0598),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              'Create an new account',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 17.sp,
+                color: const Color(0xff848eab),
+                fontWeight: FontWeight.w400,
+              ),
+            ),
             //name
             CustomTextField(
               controller: nameController,
@@ -59,14 +77,6 @@ class ERegisterScreenState extends State<ERegisterScreen>{
               hintText: 'Name',
               prefixIcon: const Icon(Icons.person),
             ),
-            //  email
-            CustomTextField(
-              type: TextInputType.emailAddress,
-              action: TextInputAction.next,
-              hintText: 'Email Address',
-              controller: emailController,
-              prefixIcon: const Icon(Icons.email),
-            ),
             // phone number
             CustomTextField(
               controller: phoneController,
@@ -74,6 +84,14 @@ class ERegisterScreenState extends State<ERegisterScreen>{
               action: TextInputAction.next,
               hintText: 'Phone',
               prefixIcon: const Icon(Icons.phone),
+            ),
+            //  email
+            CustomTextField(
+              type: TextInputType.emailAddress,
+              action: TextInputAction.next,
+              hintText: 'Email Address',
+              controller: emailController,
+              prefixIcon: const Icon(Icons.email),
             ),
             //password
             CustomTextField(
@@ -93,73 +111,39 @@ class ERegisterScreenState extends State<ERegisterScreen>{
                     : const Icon(Icons.visibility),
               ),
             ),
-            //Re-password
-            CustomTextField(
-              type: TextInputType.visiblePassword,
-              action: TextInputAction.done,
-              hintText: 'Re-Password',
-              controller: passController,
-              prefixIcon: const Icon(Icons.lock),
-              obscureText: obscureText,
-              suffixIcon: IconButton(
-                onPressed: () {
-                  obscureText = !obscureText;
-                  setState(() {});
-                },
-                icon: obscureText
-                    ? const Icon(Icons.visibility_off)
-                    : const Icon(Icons.visibility),
-              ),
+            SizedBox(
+              height: 1.h,
             ),
-            SizedBox(height: 1.h,),
             // Register button
-            ElevatedButton(
-              onPressed: () {
-                registerUserByApi();
-              },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  minimumSize:
-                  Size(95.w, 6.h),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)
-                  )
-              ),
-              child: const Text(
-                'Register',
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w700,
-                  // color: Color(0xff656363)
-                ),
-              ),
+            CustomElevatedButton(
+              onPressed: registerUserByApi,
+              title: 'Register',
             ),
             // Already have an account ?
             // login
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                 Text(
                   '\nAlready have an account ? ',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18.5.sp,
                   ),
                 ),
                 GestureDetector(
-                  child: const Text(
+                  child: Text(
                     '\nLogin',
                     style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 17.sp,
                         fontWeight: FontWeight.w800,
-                        color: Colors.orange
-                    ),
+                        color:const Color(0xff5E17EB)),
                   ),
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (BuildContext context) =>
-                          const ELoginScreen(),
+                              const ELoginScreen(),
                         ));
                   },
                 ),
@@ -170,16 +154,14 @@ class ERegisterScreenState extends State<ERegisterScreen>{
       ),
     );
   }
-  void registerUserByApi(){
-    AppDio.post(
-        endpoint: Endpoints.register,
-      body: {
-        'name': nameController.text,
-        'email': emailController.text,
-        'password': passController.text,
-        'phone': phoneController.text,
-      }
-    ).then((value) {
+
+  void registerUserByApi() {
+    AppDio.post(endpoint: Endpoints.register, body: {
+      'name': nameController.text,
+      'email': emailController.text,
+      'password': passController.text,
+      'phone': phoneController.text,
+    }).then((value) {
       print('value ===> $value');
       // Save user data to shared preferences
       PreferenceUtils.setString(PrefKeys.name, nameController.text);
@@ -192,5 +174,4 @@ class ERegisterScreenState extends State<ERegisterScreen>{
       print('Registration error: $error');
     });
   }
-  
 }
