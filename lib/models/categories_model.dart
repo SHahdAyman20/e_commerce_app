@@ -1,22 +1,16 @@
-import 'dart:convert';
-
-ProductModel productModelFromJson(String str) => ProductModel.fromJson(json.decode(str));
-
-String productModelToJson(ProductModel data) => json.encode(data.toJson());
-
-class ProductModel {
+class CategoryItemModel {
   final int id;
-  final int price;
-  final int oldPrice;
+  final double price;
+  final double oldPrice;
   final int discount;
   final String image;
   final String name;
   final String description;
+  final List<String> images;
   final bool inFavorites;
   final bool inCart;
-  final List<String> images;
 
-  ProductModel({
+  CategoryItemModel({
     required this.id,
     required this.price,
     required this.oldPrice,
@@ -24,22 +18,22 @@ class ProductModel {
     required this.image,
     required this.name,
     required this.description,
+    required this.images,
     required this.inFavorites,
     required this.inCart,
-    required this.images,
   });
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
+  factory CategoryItemModel.fromJson(Map<String, dynamic> json) => CategoryItemModel(
     id: json["id"],
-    price: json["price"],
-    oldPrice: json["old_price"],
+    price: json["price"].toDouble(),
+    oldPrice: json["old_price"].toDouble(),
     discount: json["discount"],
     image: json["image"],
     name: json["name"],
     description: json["description"],
+    images: List<String>.from(json["images"].map((x) => x)),
     inFavorites: json["in_favorites"],
     inCart: json["in_cart"],
-    images: List<String>.from(json["images"].map((x) => x)),
   );
 
   Map<String, dynamic> toJson() => {
@@ -50,8 +44,8 @@ class ProductModel {
     "image": image,
     "name": name,
     "description": description,
+    "images": List<dynamic>.from(images.map((x) => x)),
     "in_favorites": inFavorites,
     "in_cart": inCart,
-    "images": List<dynamic>.from(images.map((x) => x)),
   };
 }

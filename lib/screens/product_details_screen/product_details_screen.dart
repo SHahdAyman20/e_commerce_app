@@ -1,12 +1,14 @@
-import 'package:e_commerce_app/models/product_card_model.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:e_commerce_app/const/const.dart';
+import 'package:e_commerce_app/screens/product_details_screen/product_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  final ProductCardModel product;
-  final bool isFav;
+  final int productId;
 
-  const ProductDetailsScreen({Key? key, required this.product, required this.isFav})
+  const ProductDetailsScreen({Key? key, required this.productId})
       : super(key: key);
 
   @override
@@ -14,186 +16,168 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  bool isFav = false;
-
+  bool? videoCall;
+  int currentIndex = 0;
   @override
   void initState() {
     super.initState();
-    isFav = widget.isFav;
+    context.read<ProductCubit>().getProduct(id: widget.productId);
   }
 
   @override
+  void didUpdateWidget(covariant ProductDetailsScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    videoCall = false;
+    super.dispose();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
-        leading: const BackButton(
-          color: Colors.white,
-        ),
-        title: Text(
-          widget.product.productDescription,
-          style: const TextStyle(
-            color: Colors.white,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.shopping_cart,
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(top: 20.sp, right: 20.sp, left: 20.sp),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Product image
-              Image.asset(
-                widget.product.productImage,
-                fit: BoxFit.contain,
-                height: MediaQuery.of(context).size.height * 0.35,
-                width: double.infinity,
+    return BlocBuilder<ProductCubit, ProductState>(
+      builder: (context, state) {
+
+        if(state is ProductSuccessful){
+          return Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              title: Text(
+                  state.product.name,
+                maxLines: 1,
+                textDirection: TextDirection.rtl,
+                style:  TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18.sp,
+                  overflow: TextOverflow.ellipsis,
+                  color: widgetTitleColor,
+                ),
               ),
-              // product name && fav icon
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: ListView(
                 children: [
+                  // Product Images slider
+                  CarouselSlider.builder(
+                    itemCount: state.product.images.length ,
+                    itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
+                      return Container(
+                        margin:const EdgeInsets.all(10),
+                        child: Image.network(
+                          state.product.images[itemIndex],
+                          width: double.infinity,
+                          fit: BoxFit.fill,
+                        ),
+                      );
+                    }, options: CarouselOptions(
+                    initialPage: 1,
+                    autoPlay: true,
+                    onPageChanged: (index,reason){
+                      debugPrint(reason.toString());
+                      setState(() {
+                        currentIndex = index;
+                      });
+                    },
+                  ),
+                  ),
+                  // dots builder
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      for(int i =0 ; i<state.product.images.length ; i++)
+                        Container(
+                          height: currentIndex == i ? 15 : 9,
+                          width: currentIndex == i ? 15 : 9,
+                          margin: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              color: currentIndex == i ? primaryColor : textGrayColor,
+                              shape: BoxShape.circle,
+                              boxShadow: const [
+                                BoxShadow(
+                                    color: Colors.grey,
+                                    spreadRadius: 1,
+                                    blurRadius: 2,
+                                    offset: Offset(2, 2)
+                                )
+                              ]
+                          ),
+                        )
+                    ],
+                  ),
                   // product name
-                  Expanded(
-                    child: Text(
-                      widget.product.productDescription,
-                      textAlign: TextAlign.left,
-                      maxLines: 4,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 23.sp,
-                        color: Colors.deepPurple,
-                        fontWeight: FontWeight.w800,
-                      ),
+                  Text(
+                    state.product.name,
+                    textDirection: TextDirection.rtl,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xff223263),
                     ),
                   ),
-                  // Favorite icon
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        isFav = !isFav;
-                        widget.product.isFav = isFav;
-                      });
-
-                      Navigator.pop(context, widget.product); // Pass the updated product back to the previous screen
-                    },
-                    icon: Icon(
-                      isFav ? Icons.favorite : Icons.favorite_border,
-                      color: isFav ? Colors.deepPurple : null,
-                      size: 25.sp,
+                  // product price
+                  Text(
+                    '${state.product.price} EGP',
+                    textDirection: TextDirection.ltr,
+                    style:  TextStyle(
+                      color: Colors.purple[900],
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20,
+                    ),
+                  ),
+                  const SizedBox(height: 10,),
+                  // product description
+                  const Text(
+                    'Description :',
+                    textDirection: TextDirection.ltr,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: titleColor,
+                    ),
+                  ),
+                  Text(
+                    '${state.product.description} ',
+                    textDirection: TextDirection.rtl,
+                    style:  TextStyle(
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.w400,
+                      fontSize: 18.sp,
                     ),
                   ),
                 ],
               ),
-              // Price before and after sales && discount
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    //product Price After Sale
-                    Text(
-                      '${widget.product.productPriceAfterSale} EG',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.sp,
-                          color: Colors.deepPurple),
-                    ),
-                    //productPriceBeforeSale
-                    Text(
-                      '${widget.product.productPriceBeforeSale} EG',
-                      style: TextStyle(
-                          color: Colors.grey[700],
-                          decoration: TextDecoration.lineThrough,
-                          fontSize: 18.sp),
-                    ),
-                    // Discount
-                    Container(
-                        padding: EdgeInsets.all(10.sp),
-                        margin: EdgeInsets.all(10.sp),
-                        decoration: BoxDecoration(
-                          color: Colors.deepPurple[300],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(
-                          '${widget.product.discount}% ',
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 17.sp),
-                        )),
-                  ],
-                ),
-              ),
-              // description text
-              Text('Description :',
-              style: TextStyle(
-                fontSize: 23.sp,
-                fontWeight: FontWeight.w700,
-                color: Colors.deepPurple
-              ),),
-              // Brand, color, model, type, size, etc.
-              Text(
-                'Brand: ${widget.product.brand}',
-                style: TextStyle(
-                  fontSize: 20.sp,
-                ),
-              ),
-              Text(
-                'Color: ${widget.product.color}',
-                style: TextStyle(
-                  fontSize: 20.sp,
-                ),
-              ),
-              Text(
-                'Model: ${widget.product.model}',
-                style: TextStyle(
-                  fontSize: 20.sp,
-                ),
-              ),
-              Text(
-                'Type: ${widget.product.type}',
-                style: TextStyle(
-                  fontSize: 20.sp,
-                ),
-              ),
-              Text(
-                'Size: ${widget.product.size}',
-                style: TextStyle(
-                  fontSize: 20.sp,
-                ),
-              ),
-              SizedBox(height: 20.sp,),
-              // Add to Cart button
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0.sp),
+            ),
+          );
+        }
 
-                  ),
-                ),
-                child: Text(
-                  'Add to Cart',
-                  style: TextStyle(color: Colors.white, fontSize: 20.sp),
-                ),
-              ),
-              SizedBox(height: 20.sp,),
+        if(state is LoadingProduct) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
 
-            ],
-          ),
-        ),
-      ),
+        if(state is ProductFailed) {
+          return const Scaffold(
+            body: Center(child: Text('Error try again!')),
+          );
+        }
+
+        if(state is ProductNoInternetConnection) {
+          return const Scaffold(
+            body: Center(child: Text('No Internet Connection!')),
+          );
+        }
+
+        return const SizedBox();
+
+      },
     );
   }
 }

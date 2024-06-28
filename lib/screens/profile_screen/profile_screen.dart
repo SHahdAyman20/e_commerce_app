@@ -1,4 +1,4 @@
-import 'package:e_commerce_app/screens/fav_screen/fav_product_screen.dart';
+import 'package:e_commerce_app/const/const.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -17,15 +17,14 @@ class ProfileScreen extends StatefulWidget {
 class ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.white,
+        toolbarHeight: 35.sp,
         title: Text(
-          'Profile',
+          'Account',
           style: TextStyle(
-              color: Colors.white,
+              color: widgetTitleColor,
               fontSize: 20.sp,
               fontWeight: FontWeight.w600),
         ),
@@ -33,77 +32,27 @@ class ProfileScreenState extends State<ProfileScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 20.sp,
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              'Shahd Ayman',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.w800,
-                fontSize: 20.sp,
-              ),
-            ),
-          ),
-          Text(
-            'shahdayman@gmail.com',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 18.sp,
-            ),
-          ),
-          SizedBox(
-            height: 20.sp,
-          ),
           profileSections(
-            icon: const Icon(Icons.edit_outlined),
-            text: 'Edit Profile',
+            icon: const Icon(Icons.person_outline_sharp),
+            text: 'Profile',
             onPressed: () {},
           ),
           profileSections(
-            icon: const Icon(Icons.settings),
-            text: 'Settings',
+            icon: const Icon(Icons.shopping_bag_outlined),
+            text: 'Order',
             onPressed: () {},
           ),
           profileSections(
-            icon: const Icon(Icons.favorite_border),
-            text: 'Fav Product',
-            onPressed: () {
-              Navigator.push(
-                  context,
-                MaterialPageRoute (
-                  builder: (BuildContext context) => const FavProductScreen(),
-                ),
-              );
-            },
+            icon: const Icon(Icons.location_on_outlined),
+            text: 'Address',
+            onPressed: () {},
           ),
           profileSections(
-            icon: const Icon(Icons.shopping_cart),
-            text: 'Orders',
+            icon: const Icon(Icons.payment),
+            text: 'Payment',
             onPressed: () {},
           ),
           SizedBox(height: 20.sp,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.logout,
-                color: Colors.red,
-                size: 23.sp,
-              ),
-              Text(
-                '  LogOut',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20.sp,
-                    color: Colors.red),
-              ),
-            ],
-          ),
         ],
       ),
     );
@@ -118,13 +67,13 @@ class ProfileScreenState extends State<ProfileScreen> {
       padding: const EdgeInsets.all(18),
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-          color: Colors.deepPurple[100],
-          borderRadius: BorderRadius.circular(20)),
+          color: Colors.grey[50],
+          borderRadius: BorderRadius.circular(15)),
       child: Row(
         children: [
           Icon(
             icon.icon,
-            color: Colors.deepPurple[800],
+            color: primaryColor,
             size: 23.sp,
           ),
           Text(
@@ -133,19 +82,15 @@ class ProfileScreenState extends State<ProfileScreen> {
             style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 20.sp,
-                color: Colors.deepPurple),
+                color: widgetTitleColor),
           ),
           const Spacer(),
-          CircleAvatar(
-            backgroundColor: Colors.deepPurple[300],
-            radius: 21.sp,
-            child: IconButton(
-              onPressed: onPressed,
-              icon: Icon(
-                Icons.navigate_next_rounded,
-                size: 25.sp,
-                color: Colors.deepPurple[700],
-              ),
+          IconButton(
+            onPressed: onPressed,
+            icon: Icon(
+              Icons.navigate_next_rounded,
+              size: 25.sp,
+              color: Colors.deepPurple[700],
             ),
           ),
         ],

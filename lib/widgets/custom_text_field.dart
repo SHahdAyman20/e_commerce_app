@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // i made this class to refactor the code cuz i will make 4 text field
 // and now i won't be forced to write the same code of text field 4 timed
@@ -12,6 +11,7 @@ class CustomTextField extends StatelessWidget {
   bool obscureText;
   String hintText;
   TextEditingController? controller;
+  FormFieldValidator? validator;
 
 
   CustomTextField(
@@ -22,17 +22,19 @@ class CustomTextField extends StatelessWidget {
         this.obscureText=false,
         required this.hintText,
          this.controller,
-        required this.prefixIcon
+        required this.prefixIcon,
+        this.validator
       });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: TextField(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
         controller: controller,
         obscureText: obscureText,
         keyboardType: type,
+        validator : validator,
         textInputAction: action,
         decoration: InputDecoration(
             hintText: hintText,
