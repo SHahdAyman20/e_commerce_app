@@ -4,9 +4,10 @@ import 'package:e_commerce_app/cores/app_endpoints.dart';
 import 'package:e_commerce_app/screens/authentication/login_screen/e_login_screen.dart';
 import 'package:e_commerce_app/screens/home_screen/e_home_screen.dart';
 import 'package:e_commerce_app/singleton/shared_preferences.dart';
-import 'package:e_commerce_app/widgets/custom_elevated_button.dart';
-import 'package:e_commerce_app/widgets/custom_text_field.dart';
-import 'package:e_commerce_app/widgets/show_toast.dart';
+import 'package:e_commerce_app/widgets/customs/custom_elevated_button.dart';
+import 'package:e_commerce_app/widgets/customs/custom_text_field.dart';
+import 'package:e_commerce_app/widgets/navigation/navigation.dart';
+import 'package:e_commerce_app/widgets/show_toast/show_toast.dart';
 import 'package:e_commerce_app/widgets/some_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -79,6 +80,7 @@ class ERegisterScreenState extends State<ERegisterScreen> {
                   if (name.isEmpty) {
                     return 'this field is required!';
                   }
+                  return null;
                 },
               ),
               // phone number textField
@@ -94,6 +96,7 @@ class ERegisterScreenState extends State<ERegisterScreen> {
                   }else if(phone.toString().length < 11){
                     return 'the phone number should be 11 digit !';
                   }
+                  return null;
                 },
               ),
               // email textField
@@ -111,6 +114,7 @@ class ERegisterScreenState extends State<ERegisterScreen> {
                   } else if (!email.toString().contains('.')) {
                     return 'Email must contain "." ';
                   }
+                  return null;
                 },
               ),
               //password textField
@@ -127,6 +131,7 @@ class ERegisterScreenState extends State<ERegisterScreen> {
                   } else if (pass.toString().length < 6) {
                     return 'this password too weak !';
                   }
+                  return null;
                 },
                 suffixIcon: IconButton(
                   onPressed: () {
@@ -152,6 +157,7 @@ class ERegisterScreenState extends State<ERegisterScreen> {
                   } else if (pass.toString().length < 6) {
                     return 'this password too weak !';
                   }
+                  return null;
                 },
                 suffixIcon: IconButton(
                   onPressed: () {
@@ -202,15 +208,14 @@ class ERegisterScreenState extends State<ERegisterScreen> {
       if (value.data != null) {
         if (value.data['status'] == true) {
           String apiToken = value.data['data'] != null ? value.data['data']['token'] : null;
-          if (apiToken != null) {
-            debugPrint('apiToken ===> $apiToken');
-            PreferenceUtils.setString(PrefKeys.apiToken, apiToken);
-          }
-          await showToast(
+          debugPrint('apiToken ===> $apiToken');
+          PreferenceUtils.setString(PrefKeys.apiToken, apiToken);
+                  await showToast(
             message: '${value.data['message']}' ,
             backgroundColor: primaryColor,
           );
-          navToScreenWithRemoveUntil(context, navToScreen: const EHomeScreen(),);
+          // ignore: use_build_context_synchronously
+          navToScreenWithRemoveUntil(context, navToScreen: const EHomeScreen(id: 44,),);
         } else {
           await showToast(message: '${value.data['message']}' , backgroundColor : Colors.redAccent);
         }
@@ -219,9 +224,9 @@ class ERegisterScreenState extends State<ERegisterScreen> {
         debugPrint('register error: value.data is null');
       }
       // Save user data to shared preferences
-      PreferenceUtils.setString(PrefKeys.name, nameController.text);
-      PreferenceUtils.setString(PrefKeys.email, emailController.text);
-      PreferenceUtils.setString(PrefKeys.password, passwordController.text);
+    PreferenceUtils.setString(PrefKeys.name, nameController.text);
+    PreferenceUtils.setString(PrefKeys.email, emailController.text);
+    PreferenceUtils.setString(PrefKeys.password, passwordController.text);
       // Handle successful registration
     }).catchError((error) {
       // Handle registration error

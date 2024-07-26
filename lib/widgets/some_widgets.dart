@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/const/const.dart';
+import 'package:e_commerce_app/widgets/navigation/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -77,19 +78,6 @@ Widget accountOption(
       ),
     ],
   );
-}
-
-navToScreenWithRemoveUntil(context, {required Widget navToScreen}) {
-  Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (BuildContext context) => navToScreen),
-      (routes) => false);
-}
-navToScreen(context, {required Widget navToScreen}) {
-  Navigator.push(
-      context,
-      MaterialPageRoute(builder: (BuildContext context) => navToScreen),
-          );
 }
 
 Widget orLine(context) {

@@ -9,6 +9,8 @@ class Endpoints{
   static const String ad = 'ad';
   static const String categories = 'categories';
   static const String home = 'home';
+  static const String favorites = 'favorites';
+  static const String carts = 'carts';
 
 
 

@@ -1,9 +1,8 @@
 import 'package:e_commerce_app/const/const.dart';
-import 'package:e_commerce_app/screens/cart_screen/cart_screen.dart';
+import 'package:e_commerce_app/screens/cart_screen/screen/cart_screen.dart';
+import 'package:e_commerce_app/screens/fav_screen/fav_product_screen.dart';
 import 'package:e_commerce_app/screens/home_screen/e_home_screen.dart';
-import 'package:e_commerce_app/screens/offer_screen/offer_screen.dart';
 import 'package:e_commerce_app/screens/profile_screen/profile_screen.dart';
-import 'package:e_commerce_app/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
 class ScreensBottomNavBar extends StatefulWidget {
@@ -18,11 +17,11 @@ class _ScreensBottomNavBarState extends State<ScreensBottomNavBar> {
 
   int currentIndex = 0;
   final List<Widget> screens = const [
-    EHomeScreen(),
-    SearchScreen(),
-    CartScreen(),
-    OfferScreen(),
-    ProfileScreen()
+    EHomeScreen(id: 44,),
+    FavProductScreen(),
+    CartScreen(productId: 44),
+    ProfileScreen(),
+
   ];
 
   @override
@@ -50,20 +49,15 @@ class _ScreensBottomNavBarState extends State<ScreensBottomNavBar> {
             icon: Icon(Icons.home_rounded),
             label: 'Home',
           ),
-          //search
+          //fav screen
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Explore',
+            icon: Icon(Icons.favorite_outlined),
+            label: 'Favourites',
           ),
-          //cart
+          // cart screen
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart_outlined),
             label: 'Cart',
-          ),
-          //offers
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_offer_outlined),
-            label: 'Offer',
           ),
           //profile
           BottomNavigationBarItem(

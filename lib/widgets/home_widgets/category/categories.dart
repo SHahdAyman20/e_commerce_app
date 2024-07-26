@@ -1,7 +1,7 @@
 import 'package:e_commerce_app/cores/app_dio.dart';
 import 'package:e_commerce_app/cores/app_endpoints.dart';
 import 'package:e_commerce_app/screens/category_screen/category_screen.dart';
-import 'package:e_commerce_app/widgets/some_widgets.dart';
+import 'package:e_commerce_app/widgets/navigation/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 

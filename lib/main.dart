@@ -1,5 +1,5 @@
 import 'package:e_commerce_app/cores/app_dio.dart';
-import 'package:e_commerce_app/screens/product_details_screen/product_cubit.dart';
+import 'package:e_commerce_app/cubit/layout_cubit.dart';
 import 'package:e_commerce_app/screens/splash_screen/splash_screen.dart';
 import 'package:e_commerce_app/singleton/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
     return ResponsiveSizer(
         builder: (context, orientation, screenType) {
           return BlocProvider(
-            create: (context) => ProductCubit(),
+            create: (context) => LayoutCubit(),
             child: MaterialApp(
               builder: FToastBuilder(),
               debugShowCheckedModeBanner: false,

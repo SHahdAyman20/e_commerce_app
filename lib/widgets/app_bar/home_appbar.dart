@@ -1,7 +1,7 @@
 import 'package:e_commerce_app/const/const.dart';
 import 'package:flutter/material.dart';
 
-Widget homeAppBar({required TextEditingController searchController,required VoidCallback favIconOnPressed,required VoidCallback notificationOnPresses}){
+Widget homeAppBar(context,{required TextEditingController searchController,required ValueChanged onChanged}){
   return Row(
     children: [
           Expanded(
@@ -9,6 +9,7 @@ Widget homeAppBar({required TextEditingController searchController,required Void
               margin: const EdgeInsets.all(10.0),
               child: TextFormField(
                 textAlignVertical: TextAlignVertical.center,
+                onChanged: onChanged,
                 controller: searchController,
                 decoration: InputDecoration(
                     hintText: 'Search Product',
@@ -32,14 +33,6 @@ Widget homeAppBar({required TextEditingController searchController,required Void
                 },
               ),
             ),
-          ),
-          IconButton(
-              onPressed: favIconOnPressed,
-              icon: const Icon(Icons.favorite_border,color: textGrayColor,)
-          ),
-          IconButton(
-              onPressed: notificationOnPresses,
-              icon:const Icon(Icons.notifications_on,color: textGrayColor)
           ),
     ],
   );

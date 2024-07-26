@@ -5,9 +5,10 @@ import 'package:e_commerce_app/screens/authentication/forget_password/forget_pas
 import 'package:e_commerce_app/screens/authentication/register_screen/e_register_screen.dart';
 import 'package:e_commerce_app/screens/home_screen/e_home_screen.dart';
 import 'package:e_commerce_app/singleton/shared_preferences.dart';
-import 'package:e_commerce_app/widgets/custom_elevated_button.dart';
-import 'package:e_commerce_app/widgets/custom_text_field.dart';
-import 'package:e_commerce_app/widgets/show_toast.dart';
+import 'package:e_commerce_app/widgets/customs/custom_elevated_button.dart';
+import 'package:e_commerce_app/widgets/customs/custom_text_field.dart';
+import 'package:e_commerce_app/widgets/navigation/navigation.dart';
+import 'package:e_commerce_app/widgets/show_toast/show_toast.dart';
 import 'package:e_commerce_app/widgets/some_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -22,7 +23,6 @@ class ELoginScreen extends StatefulWidget {
 }
 
 class ELoginScreenState extends State<ELoginScreen> {
-  @override
   // void initState() {
   //   super.initState();
   //  loginUserByApi();
@@ -187,7 +187,8 @@ class ELoginScreenState extends State<ELoginScreen> {
             PreferenceUtils.setString(PrefKeys.apiToken, apiToken);
           }
           await showToast(message: '${value.data['message']}' , backgroundColor: primaryColor);
-          navToScreenWithRemoveUntil(context, navToScreen: const EHomeScreen());
+          // ignore: use_build_context_synchronously
+          navToScreenWithRemoveUntil(context, navToScreen: const EHomeScreen(id: 44,));
         } else {
           await showToast(message: '${value.data['message']}' , backgroundColor : Colors.redAccent);
         }
