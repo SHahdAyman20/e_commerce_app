@@ -1,13 +1,10 @@
 import 'package:e_commerce_app/api/home_data/home_repository.dart';
-import 'package:e_commerce_app/cubit/layout_cubit.dart';
 import 'package:e_commerce_app/widgets/home_widgets/banners/banners.dart';
 import 'package:e_commerce_app/widgets/home_widgets/category/categories.dart';
 import 'package:e_commerce_app/widgets/app_bar/home_appbar.dart';
 import 'package:e_commerce_app/widgets/home_widgets/products/products_design_and_build/products_grid_list.dart';
 import 'package:e_commerce_app/widgets/widget_title_and_view_more.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class EHomeScreen extends StatefulWidget {
   const EHomeScreen({Key? key, required this.id}) : super(key: key);
@@ -38,11 +35,11 @@ class EHomeScreenState extends State<EHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = BlocProvider.of<LayoutCubit>(context);
-
-    return BlocConsumer<LayoutCubit, LayoutState>(
-      listener: (context, state) {},
-      builder: (context, state) {
+    // final cubit = BlocProvider.of<LayoutCubit>(context);
+    //
+    // return BlocConsumer<LayoutCubit, LayoutState>(
+    //   listener: (context, state) {},
+    //   builder: (context, state) {
         return Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
@@ -55,7 +52,7 @@ class EHomeScreenState extends State<EHomeScreen> {
                     context,
                     searchController: searchController,
                     onChanged: (input){
-                      cubit.filteredProduct(input: input);
+                     // cubit.filteredProduct(input: input);
                     }
                   ),
                   // Second widget [ slider for banners ]
@@ -75,7 +72,7 @@ class EHomeScreenState extends State<EHomeScreen> {
             ),
           ),
         );
-      },
-    );
+    //   },
+    // );
   }
 }

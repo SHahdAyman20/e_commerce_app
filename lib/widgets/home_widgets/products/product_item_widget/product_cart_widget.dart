@@ -14,12 +14,12 @@ class ProductCartWidget extends StatefulWidget {
     required this.isFav,
   });
 
-  String image;
-  String name;
-  String description;
-  double oldPrice;
-  double price;
-  int discount;
+  final String image;
+  final String name;
+  final String description;
+  final int oldPrice;
+  final int price;
+  final int discount;
   bool isFav;
 
   @override
@@ -66,7 +66,7 @@ class _ProductCartWidgetState extends State<ProductCartWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${widget.price.toInt()} EGP',
+                '${widget.price} EGP',
                 style: TextStyle(
                     color: Colors.deepPurple,
                     fontWeight: FontWeight.w500,
@@ -91,7 +91,7 @@ class _ProductCartWidgetState extends State<ProductCartWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'EGP${widget.oldPrice.toInt()}',
+                'EGP${widget.oldPrice}',
                 style:  TextStyle(
                     color: textGrayColor,
                     fontWeight: FontWeight.w400,

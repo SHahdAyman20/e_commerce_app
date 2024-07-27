@@ -30,16 +30,21 @@ class LayoutCubit extends Cubit<LayoutState> {
   void getProduct({required int id, }) async {
     try {
       emit(LoadingProduct());
-      final product = await HomeRepository()!.getProductById(id);
+      final product = await HomeRepository().getProductById(id);
       if (product != null) {
         emit(ProductSuccessful(product));
       }
     } on SocketException catch (e) {
       emit(ProductNoInternetConnection());
+      print('e---------------------------$e');
     } on Exception catch (e) {
       emit(ProductFailed());
+      print('e---------------------------$e');
+
     } catch (e) {
       emit(ProductFailed());
+      print('e---------------------------$e');
+
     }
   }
 

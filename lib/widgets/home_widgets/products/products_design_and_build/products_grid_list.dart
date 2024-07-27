@@ -24,43 +24,41 @@ Widget productGridList({required category }){
           debugPrint('${snapshot.data}');
           final listOfCategories =
           (snapshot.data as Map<String, dynamic>)['data']['data'];
-          return Expanded(
-            child: GridView.builder(
-              physics: const
-              NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 8,
-                childAspectRatio: 0.57,
+          return GridView.builder(
+            physics: const
+            NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 8,
+              childAspectRatio: 0.57,
 
-              ),
-              itemCount: listOfCategories.length,
-              itemBuilder: (_, index) {
-                final product =
-                CategoryItemModel.fromJson(listOfCategories[index]);
-                return GestureDetector(
-                  onTap: () {
-                    navToScreen(
-                      context,
-                      navToScreen: ProductDetailsScreen(
-                        productId: product.id,
-                      ),);
-
-                  },
-                  child: ProductCartWidget(
-                    image: product.image,
-                    name: product.name,
-                    description: product.description,
-                    oldPrice: product.oldPrice,
-                    price: product.price,
-                    discount: product.discount,
-                    isFav: product.inFavorites,
-                  ),
-                );
-              },
             ),
+            itemCount: listOfCategories.length,
+            itemBuilder: (_, index) {
+              final product =
+              CategoryItemModel.fromJson(listOfCategories[index]);
+              return GestureDetector(
+                onTap: () {
+                  navToScreen(
+                    context,
+                    navToScreen: ProductDetailsScreen(
+                      productId: product.id,
+                    ),);
+
+                },
+                child: ProductCartWidget(
+                  image: product.image,
+                  name: product.name,
+                  description: product.description,
+                  oldPrice: product.oldPrice.toInt(),
+                  price: product.price.toInt(),
+                  discount: product.discount,
+                  isFav: product.inFavorites,
+                ),
+              );
+            },
           );
         }
         return const Center(
